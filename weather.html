@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Sentiment Prompt</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Weather Sentiment Prompt</h1>
+    <p id="prompt">Loading...</p>
+
+    <script>
+        // Function to fetch weather data and update sentiment prompt
+        // Function to fetch weather data and update sentiment prompt
+function getWeatherData() {
+    var api_key = "b71bd37c34ad6762415d8f3fb7410bc6";
+    var city = "Jamshedpur,Jharkhand";
+    var url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}&units=metric`;
+
+    // Send API request to OpenWeatherMap
+    $.get(url, function(data) {
+        var weather_condition = data.weather[0].main;
+        var sentiment_prompt = generateSentimentPrompt(weather_condition);
+        $("#prompt").html(sentiment_prompt);
+    });
+}
+
+// Function to generate sentiment prompt based on weather conditions
+function generateSentimentPrompt(weather_condition) {
+    var weather_conditions = {
+        "Clear": "It's a beautiful day! How does the clear sky make you feel? &#x2600;",
+        "Clouds": "It's a cloudy day. What are your thoughts on the cloudy weather? &#x2601;",
+        "Rain": "It's raining in Jamshedpur. How does the rain affect your mood? &#x2614;",
+        "Drizzle": "It's drizzling outside. How do you feel about this light rain? &#x1F327;",
+        "Thunderstorm": "There's a thunderstorm in Jamshedpur. How do you react to thunderstorms? &#x26C8;",
+        "Snow": "It's snowing in Jamshedpur! What are your feelings about snow? &#x2744;",
+        "Mist": "There's mist in the air. How does the misty weather make you feel? &#x1F32B;",
+        "Haze": "It's hazy outside. How does the haze affect your mood? &#x1F32B;",
+        "Fog": "There's fog in Jamshedpur. How do you feel about foggy weather? &#x1F32B;",
+        "Smoke": "There's smoke in the air. How does the smoky weather make you feel? &#x1F32B;",
+        "Dust": "It's a dusty day. How do you feel about the dusty weather? &#x1F32B;",
+        "Sand": "There's sand in the air. How does the sandy weather make you feel? &#x1F32B;"
+    };
+
+    if (weather_condition in weather_conditions) {
+        return weather_conditions[weather_condition];
+    } else {
+        return "The weather in Jamshedpur is currently " + weather_condition + ". How does this weather make you feel?";
+    }
+}
+
+// Call the function to fetch weather data on page load
+$(document).ready(function() {
+    getWeatherData();
+});
+
+    </script>
+</body>
+</html>
